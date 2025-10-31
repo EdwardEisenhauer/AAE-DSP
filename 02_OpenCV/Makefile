@@ -19,5 +19,5 @@ docker :
 		--interactive \
 		--volume `pwd`:/data \
 		${IMAGE_NAME} \
-		python3 /data/tasks.py /data/resources/car1.jpg
+		python3 /data/task_2_2.py /data/resources/car1.jpg
 .PHONY : docker
