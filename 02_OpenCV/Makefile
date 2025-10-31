@@ -13,7 +13,7 @@ image : Dockerfile
 	docker build --tag ${IMAGE_NAME} .
 .PHONY : image
 
-docker : image
+docker :
 	docker run \
 		--rm \
 		--interactive \
