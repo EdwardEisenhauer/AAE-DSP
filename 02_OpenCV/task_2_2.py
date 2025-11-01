@@ -5,15 +5,11 @@
 # - Convert to grayscale and apply blur (play with blur).
 # - Apply edge detection.
 
-import os
 import sys
 
 import cv2
 
-
-def suffix_filename(filename: str, suffix: str) -> str:
-    name, extension = os.path.splitext(filename)
-    return name + suffix + extension
+from utils import suffix_filename
 
 
 def detect_edges(img):
@@ -37,14 +33,18 @@ if __name__ == "__main__":
     img = cv2.imread(filename)
     assert img is not None
 
-    cv2.imwrite(suffix_filename(filename, "_copy"), img)
-
     img_grayscale = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     cv2.imwrite(suffix_filename(filename, "_grayscale"), img_grayscale)
 
-    for kernel_size in range(1, 5):
+    img_edge_detection = detect_edges(img_grayscale)
+    cv2.imwrite(suffix_filename(filename, "_edge_detection"), img_edge_detection)
+
+    for kernel_size in [1, 3, 5, 8, 13]:
         img_blur = cv2.blur(img, (kernel_size, kernel_size))
         cv2.imwrite(suffix_filename(filename, "_blur_" + str(kernel_size)), img_blur)
 
-    img_edge_detection = detect_edges(img_grayscale)
-    cv2.imwrite(suffix_filename(filename, "_edge_detection"), img_edge_detection)
+        img_edge_detection = detect_edges(img_blur)
+        cv2.imwrite(
+            suffix_filename(filename, "_edge_detection_blur_" + str(kernel_size)),
+            img_edge_detection,
+        )
